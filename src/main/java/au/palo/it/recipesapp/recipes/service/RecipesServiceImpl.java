@@ -18,24 +18,21 @@ public class RecipesServiceImpl implements RecipesService {
 
     @Override
     public Recipe saveRecipe(String accountId, String description) {
-        Recipe recipe = new Recipe(description, accountId);
-        repository.save(accountId, recipe);
-        return recipe;
+        return null;
     }
 
     @Override
     public List<Recipe> getRecipes(String accountId) {
-        return repository.getAllByAccountId(accountId);
+        return null;
     }
 
     @Override
     public void addRating(int rating, String recipeId) {
-        var recipe = repository.getById(recipeId);
-        recipe.addRating(rating);
+
     }
 
     @Override
     public List<Recipe> getPopularRecipes(double minAverageRating) {
-        return repository.getByMinAverageRating(minAverageRating);
+        return null;
     }
 }
