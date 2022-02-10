@@ -1,16 +1,19 @@
 package au.palo.it.recipesapp.recipes.service;
 
 import au.palo.it.recipesapp.recipes.model.Recipe;
+import au.palo.it.recipesapp.recipes.rest.RecipeResponse;
 
 import java.util.List;
 
 public interface RecipesService {
 
-    Recipe saveRecipe(String accountId, String description);
+    RecipeResponse saveRecipe(String accountId, String description);
 
-    List<Recipe> getRecipes(String accountId);
+    List<RecipeResponse> getRecipes(String accountId);
 
-    void addRating(int rating, String recipeId);
+    void addRating(Long recipeId, int rating, String comment);
 
     List<Recipe> getPopularRecipes(double minAverageRating);
+
+    RecipeResponse getRecipe(Long id);
 }

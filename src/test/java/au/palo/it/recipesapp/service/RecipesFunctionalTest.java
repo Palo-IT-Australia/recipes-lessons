@@ -1,19 +1,34 @@
 package au.palo.it.recipesapp.service;
 
-import au.palo.it.recipesapp.recipes.repository.RecipesInMemoryRepository;
+import au.palo.it.recipesapp.recipes.repository.RecipesRepository;
 import au.palo.it.recipesapp.recipes.service.RecipesServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
+@RunWith(MockitoJUnitRunner.class)
 public class RecipesFunctionalTest {
 
+    @Mock
+    private RecipesRepository repository;
+
     @InjectMocks
-    private RecipesServiceImpl recipesService = new RecipesServiceImpl(new RecipesInMemoryRepository());
+    private RecipesServiceImpl recipesService;
+
+    @BeforeEach
+    public void setup() {
+    }
 
     @Test
     public void shouldGetAllAccountRecipes() {
@@ -22,15 +37,14 @@ public class RecipesFunctionalTest {
         recipesService.saveRecipe("1", "description-3");
         recipesService.saveRecipe("1", "description-4");
 
-        var recipes = recipesService.getRecipes("1");
-        assertEquals(recipes.size(), 3);
+        verify(repository, times(4)).save(any());
     }
 
     @Test
     public void shouldAddRatingToRecipe() {
         var recipe = recipesService.saveRecipe("1", "description-1");
 
-        recipesService.addRating(4, recipe.getId());
+        recipesService.addRating(recipe.getId(), 4, "");
 
         assertEquals(recipe.getRatings().size(), 1);
         assertEquals(recipe.getRatings().get(0).getRating(), 4);
@@ -40,13 +54,13 @@ public class RecipesFunctionalTest {
     public void shouldGetRecipesByMinAverageRating() {
         var recipe = recipesService.saveRecipe("1", "description-1");
 
-        recipesService.addRating(4, recipe.getId());
-        recipesService.addRating(5, recipe.getId());
+        recipesService.addRating(recipe.getId(), 4, "");
+        recipesService.addRating(recipe.getId(), 5, "");
 
         var recipe2 = recipesService.saveRecipe("2", "description-2");
 
-        recipesService.addRating(4, recipe2.getId());
-        recipesService.addRating(4, recipe2.getId());
+        recipesService.addRating(recipe2.getId(), 4, "");
+        recipesService.addRating(recipe2.getId(), 4, "");
 
         var result = recipesService.getPopularRecipes(4.4);
         assertEquals(result.size(), 1);

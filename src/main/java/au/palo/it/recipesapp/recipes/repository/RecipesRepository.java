@@ -1,16 +1,13 @@
 package au.palo.it.recipesapp.recipes.repository;
 
 import au.palo.it.recipesapp.recipes.model.Recipe;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface RecipesRepository {
-
-    Recipe save(String accountId, Recipe recipe);
+public interface RecipesRepository extends CrudRepository<Recipe, Long> {
 
     List<Recipe> getAllByAccountId(String accountId);
 
-    Recipe getById(String recipeId);
-
-    List<Recipe> getByMinAverageRating(double minAverageRating);
+    Recipe getById(Long id);
 }
