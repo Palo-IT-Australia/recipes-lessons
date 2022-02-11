@@ -1,6 +1,6 @@
 package au.palo.it.recipesapp.recipes.repository;
 
-import au.palo.it.recipesapp.recipes.model.Recipe;
+import au.palo.it.recipesapp.entities.Recipe;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

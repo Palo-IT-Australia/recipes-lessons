@@ -1,13 +1,13 @@
 package au.palo.it.recipesapp.recipes.service;
 
-import au.palo.it.recipesapp.recipes.controller.RecipesController;
-import au.palo.it.recipesapp.recipes.model.Rating;
-import au.palo.it.recipesapp.recipes.model.Recipe;
+import au.palo.it.recipesapp.recipes.controllers.RecipesController;
+import au.palo.it.recipesapp.entities.Rating;
+import au.palo.it.recipesapp.entities.Recipe;
+import au.palo.it.recipesapp.recipes.models.RecipeException;
 import au.palo.it.recipesapp.recipes.repository.RecipesRepository;
-import au.palo.it.recipesapp.recipes.rest.RatingResponse;
-import au.palo.it.recipesapp.recipes.rest.RecipeResponse;
+import au.palo.it.recipesapp.recipes.models.RatingResponse;
+import au.palo.it.recipesapp.recipes.models.RecipeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +26,10 @@ public class RecipesServiceImpl implements RecipesService {
 
     @Override
     public RecipeResponse saveRecipe(String accountId, String description) {
-        return mapFromRecipe(this.repository.save(new Recipe(description, accountId)));
+        if (description != null && !description.strip().isBlank()) {
+            return mapFromRecipe(this.repository.save(new Recipe(description, accountId)));
+        }
+        throw new RecipeException("Invalid input");
     }
 
     @Override

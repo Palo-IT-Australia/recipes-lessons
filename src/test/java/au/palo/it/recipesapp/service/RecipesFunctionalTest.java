@@ -1,5 +1,6 @@
 package au.palo.it.recipesapp.service;
 
+import au.palo.it.recipesapp.entities.Recipe;
 import au.palo.it.recipesapp.recipes.repository.RecipesRepository;
 import au.palo.it.recipesapp.recipes.service.RecipesServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +13,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(MockitoJUnitRunner.class)
@@ -32,6 +33,8 @@ public class RecipesFunctionalTest {
 
     @Test
     public void shouldGetAllAccountRecipes() {
+        when(repository.save(any(Recipe.class))).then(returnsFirstArg());
+
         recipesService.saveRecipe("1", "description-1");
         recipesService.saveRecipe("2", "description-2");
         recipesService.saveRecipe("1", "description-3");
@@ -42,6 +45,8 @@ public class RecipesFunctionalTest {
 
     @Test
     public void shouldAddRatingToRecipe() {
+        when(repository.save(any(Recipe.class))).then(returnsFirstArg());
+
         var recipe = recipesService.saveRecipe("1", "description-1");
 
         recipesService.addRating(recipe.getId(), 4, "");
@@ -52,6 +57,8 @@ public class RecipesFunctionalTest {
 
     @Test
     public void shouldGetRecipesByMinAverageRating() {
+        when(repository.save(any(Recipe.class))).then(returnsFirstArg());
+
         var recipe = recipesService.saveRecipe("1", "description-1");
 
         recipesService.addRating(recipe.getId(), 4, "");

@@ -1,4 +1,4 @@
-package au.palo.it.recipesapp.recipes.rest;
+package au.palo.it.recipesapp.recipes.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

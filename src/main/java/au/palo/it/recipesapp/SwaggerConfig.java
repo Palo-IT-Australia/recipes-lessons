@@ -13,7 +13,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("au.palo.it.recipesapp.recipes.controller"))
+                .apis(RequestHandlerSelectors.basePackage("au.palo.it.recipesapp"))
                 .paths(PathSelectors.any())
                 .build();
     }

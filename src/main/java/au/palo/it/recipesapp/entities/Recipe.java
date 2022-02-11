@@ -1,4 +1,4 @@
-package au.palo.it.recipesapp.recipes.model;
+package au.palo.it.recipesapp.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "recipes")
@@ -41,6 +42,19 @@ public class Recipe {
 
     public void addRating(int rating, String comment) {
         this.ratings.add(new Rating(rating, new Date(), comment));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(id, recipe.id) && Objects.equals(description, recipe.description) && Objects.equals(ratings, recipe.ratings) && Objects.equals(accountId, recipe.accountId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, ratings, accountId);
     }
 
     public List<Rating> getRatings() {

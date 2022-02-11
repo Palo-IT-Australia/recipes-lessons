@@ -1,7 +1,7 @@
 package au.palo.it.recipesapp.recipes.service;
 
-import au.palo.it.recipesapp.recipes.model.Recipe;
-import au.palo.it.recipesapp.recipes.rest.RecipeResponse;
+import au.palo.it.recipesapp.entities.Recipe;
+import au.palo.it.recipesapp.recipes.models.RecipeResponse;
 
 import java.util.List;
 
