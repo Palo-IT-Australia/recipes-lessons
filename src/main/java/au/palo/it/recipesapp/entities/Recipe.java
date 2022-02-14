@@ -1,5 +1,6 @@
 package au.palo.it.recipesapp.entities;
 
+import liquibase.pro.packaged.G;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,11 @@ public class Recipe {
     private Long id;
 
     @Column
+    @Getter
+    @Setter
+    private String title;
+
+    @Column(length = 1000)
     @Getter
     @Setter
     private String description;

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet  author="Janis Ardel"  id="insert-account">
+        <insert  catalogName="db"
+                 dbms="!h2, mysql"
+                 schemaName="public"
+                 tableName="accounts">
+            <column name="id" value="1" />
+            <column  name="name"  value="Mr Pocker"/>
+            <column  name="isAdmin" valueBoolean="false"/>
+        </insert>
+    </changeSet>
+
+    <changeSet  author="Janis Ardel"  id="insert-account-2">
+        <insert  catalogName="db"
+                 dbms="!h2, mysql"
+                 schemaName="public"
+                 tableName="accounts">
+            <column name="id" value="2" />
+            <column  name="name"  value="Mr Foster"/>
+            <column  name="isAdmin" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet  author="Janis Ardel"  id="insert-recipe-1">
+        <insert  catalogName="db"
+                 dbms="!h2, mysql"
+                 schemaName="public"
+                 tableName="recipes">
+            <column name="id" value="1002" />
+            <column  name="accountId"  value="1"/>
+            <column  name="title" value="Rump steak sandwich"/>
+            <column  name="description" value="Preheat a barbecue flat-plate or chargrill pan to hot. Brush steaks with 1 tbsp olive oil, season with salt and pepper and cook for 2 – 3 minutes per side or until cooked to your liking. Remove steaks from heat and cover loosely with foil for 5 minutes."/>
+        </insert>
+    </changeSet>
+    <changeSet  author="Janis Ardel"  id="insert-recipe-2">
+        <insert  catalogName="db"
+                 dbms="!h2, mysql"
+                 schemaName="public"
+                 tableName="recipes">
+            <column name="id" value="1003" />
+            <column  name="accountId"  value="2"/>
+            <column  name="title" value="Jumbo cookies"/>
+            <column  name="description" value="Sift flour over butter mixture. Add oats. Stir to combine. Using 1/4 cup mixture per ball, roll mixture into 8 balls. Place 2 balls, 10cm apart, on each prepared tray. Using the palm of your hand, flatten each ball into a 1cm-thick, 8cm (diameter) round. Press 15 jube pieces into each cookie top."/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

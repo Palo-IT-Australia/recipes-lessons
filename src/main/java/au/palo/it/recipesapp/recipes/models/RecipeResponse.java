@@ -14,5 +14,6 @@ public class RecipeResponse extends RepresentationModel<RecipeResponse> {
 
     private Long id;
     private String description;
+    private String title;
     private List<RatingResponse> ratings;
 }

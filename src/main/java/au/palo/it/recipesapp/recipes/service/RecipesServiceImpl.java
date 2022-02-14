@@ -56,7 +56,11 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     private RecipeResponse mapFromRecipe(Recipe recipe) {
-        var recipeResponse = new RecipeResponse(recipe.getId(), recipe.getDescription(), recipe.getRatings().stream().map(this::mapRating).collect(Collectors.toList()));
+        var recipeResponse = new RecipeResponse(
+                recipe.getId(),
+                recipe.getDescription(),
+                recipe.getTitle(),
+                recipe.getRatings().stream().map(this::mapRating).collect(Collectors.toList()));
 
         recipeResponse.add(linkTo(RecipesController.class).slash(recipeResponse.getId()).withSelfRel());
         return recipeResponse;

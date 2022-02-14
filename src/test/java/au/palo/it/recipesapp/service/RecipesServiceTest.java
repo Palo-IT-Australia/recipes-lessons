@@ -1,6 +1,7 @@
 package au.palo.it.recipesapp.service;
 
 import au.palo.it.recipesapp.entities.Recipe;
+import au.palo.it.recipesapp.recipes.models.RecipeException;
 import au.palo.it.recipesapp.recipes.repository.RecipesRepository;
 import au.palo.it.recipesapp.recipes.models.RecipeResponse;
 import au.palo.it.recipesapp.recipes.service.RecipesServiceImpl;
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -48,5 +50,14 @@ public class RecipesServiceTest {
 
         verify(repository).save(captor.capture());
         assertEquals(captor.getValue().getDescription(), description);
+    }
+
+    @Test
+    public void shouldNotSaveRecipeWithEmptyDescription() {
+        String accountId = "account-123";
+        String description = " ";
+
+        var thrown = assertThrows(RecipeException.class, () -> recipesService.saveRecipe(accountId, description));
+        assertEquals(thrown.getMessage(), "Invalid input");
     }
 }
