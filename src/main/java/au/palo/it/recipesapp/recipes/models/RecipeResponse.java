@@ -13,7 +13,7 @@ import java.util.List;
 public class RecipeResponse extends RepresentationModel<RecipeResponse> {
 
     private Long id;
-    private String description;
+    private List<String> steps;
     private String title;
     private List<RatingResponse> ratings;
 }

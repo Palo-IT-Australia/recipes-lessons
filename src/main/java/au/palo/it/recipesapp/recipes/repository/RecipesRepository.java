@@ -11,3 +11,4 @@ public interface RecipesRepository extends CrudRepository<Recipe, Long> {
 
     Recipe getById(Long id);
 }
+

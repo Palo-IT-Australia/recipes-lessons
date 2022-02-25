@@ -1,6 +1,5 @@
 package au.palo.it.recipesapp.entities;
 
-import liquibase.pro.packaged.G;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,6 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
-    @Setter
     private Long id;
 
     @Column
@@ -27,12 +25,7 @@ public class Recipe {
     @Setter
     private String title;
 
-    @Column(length = 1000)
-    @Getter
-    @Setter
-    private String description;
-
-    @OneToMany(targetEntity = Rating.class, mappedBy = "recipe", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Rating.class, mappedBy = "recipe", fetch = FetchType.LAZY)
     @Setter
     private List<Rating> ratings;
 
@@ -41,10 +34,15 @@ public class Recipe {
     @Setter
     private String accountId;
 
-    public Recipe(String description, String accountId) {
-        this.accountId = accountId;
-        this.description = description;
-    }
+    @OneToMany(targetEntity = RecipeStep.class)
+    @Setter
+    @Getter
+    private List<RecipeStep> steps;
+
+    @OneToMany(targetEntity = Ingredient.class)
+    @Getter
+    @Setter
+    private List<Ingredient> ingredients;
 
     public void addRating(int rating, String comment) {
         this.ratings.add(new Rating(rating, new Date(), comment));
@@ -55,12 +53,12 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return Objects.equals(id, recipe.id) && Objects.equals(description, recipe.description) && Objects.equals(ratings, recipe.ratings) && Objects.equals(accountId, recipe.accountId);
+        return Objects.equals(id, recipe.id) && Objects.equals(ratings, recipe.ratings) && Objects.equals(accountId, recipe.accountId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, ratings, accountId);
+        return Objects.hash(id, ratings, accountId);
     }
 
     public List<Rating> getRatings() {

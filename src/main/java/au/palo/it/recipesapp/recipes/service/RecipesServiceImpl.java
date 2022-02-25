@@ -1,9 +1,11 @@
 package au.palo.it.recipesapp.recipes.service;
 
+import au.palo.it.recipesapp.entities.RecipeStep;
 import au.palo.it.recipesapp.recipes.controllers.RecipesController;
 import au.palo.it.recipesapp.entities.Rating;
 import au.palo.it.recipesapp.entities.Recipe;
 import au.palo.it.recipesapp.recipes.models.RecipeException;
+import au.palo.it.recipesapp.recipes.models.RecipeRequest;
 import au.palo.it.recipesapp.recipes.repository.RecipesRepository;
 import au.palo.it.recipesapp.recipes.models.RatingResponse;
 import au.palo.it.recipesapp.recipes.models.RecipeResponse;
@@ -25,11 +27,17 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public RecipeResponse saveRecipe(String accountId, String description) {
-        if (description != null && !description.strip().isBlank()) {
-            return mapFromRecipe(this.repository.save(new Recipe(description, accountId)));
+    public RecipeResponse saveRecipe(RecipeRequest recipeRequest) {
+        if (recipeRequest != null && !recipeRequest.getTitle().strip().isBlank()) {
+            return mapFromRecipe(this.repository.save(RecipesServiceImpl.createRecipe(recipeRequest)));
         }
         throw new RecipeException("Invalid input");
+    }
+
+    @Override
+    public void delete(long recipeId,String accountId) {
+        validateRecipeBelongsToUser(recipeId, accountId);
+        this.repository.deleteById(recipeId);
     }
 
     @Override
@@ -58,7 +66,7 @@ public class RecipesServiceImpl implements RecipesService {
     private RecipeResponse mapFromRecipe(Recipe recipe) {
         var recipeResponse = new RecipeResponse(
                 recipe.getId(),
-                recipe.getDescription(),
+                recipe.getSteps().stream().map(RecipeStep::getDescription).collect(Collectors.toList()),
                 recipe.getTitle(),
                 recipe.getRatings().stream().map(this::mapRating).collect(Collectors.toList()));
 
@@ -68,5 +76,20 @@ public class RecipesServiceImpl implements RecipesService {
 
     private RatingResponse mapRating(Rating rating) {
         return new RatingResponse(rating.getRating(), rating.getComment());
+    }
+
+    private static Recipe createRecipe(RecipeRequest recipeRequest) {
+        var recipe = new Recipe();
+        recipe.setAccountId(recipeRequest.getAccountId());
+        recipe.setSteps(recipeRequest.getSteps().stream().map(RecipeStep::create).collect(Collectors.toList()));
+        recipe.setTitle(recipeRequest.getTitle());
+        return recipe;
+    }
+
+    private void validateRecipeBelongsToUser(long recipeId, String accountId) {
+        Recipe recipe = this.repository.getById(recipeId);
+        if (!accountId.equals(recipe.getAccountId())) {
+            throw new RecipeException("You fucked up");
+        }
     }
 }

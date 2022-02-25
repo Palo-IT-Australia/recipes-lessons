@@ -4,10 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Getter
 @Setter
 public class RecipeRequest {
-    private String description;
     private String accountId;
+    private List<String> steps;
+    private List<IngredientRequest> ingredients;
+    private String title;
 }

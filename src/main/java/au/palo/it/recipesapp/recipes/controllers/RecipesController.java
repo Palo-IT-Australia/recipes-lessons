@@ -51,7 +51,7 @@ public class RecipesController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody RecipeRequest recipeRequest) {
         try {
-            recipesService.saveRecipe(recipeRequest.getAccountId(), recipeRequest.getDescription());
+            recipesService.saveRecipe(recipeRequest);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             logger.error(e.getMessage());
